@@ -1,11 +1,12 @@
 # 목차
 
-### [국내 기업 블로그](#🇰🇷-국내-기업-블로그)
-### [해외 기업 블로그](#🌎-해외-기업-블로그)
+### [국내 기업 블로그](#🇰🇷)
+### [해외 기업 블로그](#🌎)
 
 ---
 
-### 🇰🇷 국내 기술 블로그
+### 🇰🇷
+### 국내 기술 블로그
 - [강남언니](https://blog.gangnamunni.com/blog/tech/)
 - [그린랩스](https://green-labs.github.io/)
 - [네이버플레이스](https://medium.com/naver-place-dev)
@@ -44,8 +45,8 @@
 - [29CM](https://medium.com/29cm)
 - [42dot](https://42dot.ai/blog)
 
-
-### 🌎 해외 기업 블로그
+### 🌎 
+### 해외 기업 블로그
 - [Amazon Alexa](https://developer.amazon.com/en-US/blogs/alexa)
 - [Dropbox](https://dropbox.tech/developers)
 - [ebay](https://tech.ebayinc.com/)
