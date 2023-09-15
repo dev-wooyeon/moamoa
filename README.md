@@ -1,4 +1,4 @@
-![MOEUDA](./MOEUDA.png)
+![MOEUDA](./moamoa.png)
 
 # 목차
 
