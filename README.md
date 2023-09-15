@@ -10,5 +10,5 @@
 - [블로그](https://github.com/dev-wooyeon/archive/tree/main/blog#목차)
 - [데이터베이스](https://github.com/dev-wooyeon/archive/tree/main/article#목차)
 - [프론트엔드](https://github.com/dev-wooyeon/archive/tree/main/article#목차)
-- [면접](https://github.com/dev-wooyeon/archive/tree/main/article#목차)
+- [면접](https://github.com/dev-wooyeon/archive/tree/main/interview#목차)
 - [프로젝트](https://github.com/dev-wooyeon/archive/tree/main/project#목차)
