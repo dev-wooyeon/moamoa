@@ -10,3 +10,4 @@
 - [실무에서 적용하는 테스트 코드 작성 방법과 노하우 Part 1: 효율적인 Mock Test](https://tech.kakaopay.com/post/mock-test-code/)
 - [실무에서 적용하는 테스트 코드 작성 방법과 노하우 Part 2: 테스트 코드로부터 피드백 받기](https://tech.kakaopay.com/post/mock-test-code-part-2/)
 - [초당 1억 건의 요청 S3 스케일의 스토리지 구축, 운영, 관리](https://careerly.co.kr/comments/88808?utm_source=crm&utm_medium=email&utm_campaign=newsletter_careerly_users&utm_content=newsletter230822_backend_all)
+- [XY Problem 이란?](https://americanopeople.tistory.com/351)
