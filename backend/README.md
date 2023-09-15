@@ -6,4 +6,4 @@
 
 ---
 ### 로드맵
-![image](https://github.com/dev-wooyeon/archive/assets/50124623/db709bab-2b68-4abd-9dfd-45b15dd3ac48)
+![img](https://github.com/dev-wooyeon/archive/assets/50124623/199172d1-6068-4a7b-b616-aebb0e5b01c8)
