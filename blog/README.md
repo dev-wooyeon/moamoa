@@ -1,12 +1,12 @@
 # 목차
 
-### [국내 기업 블로그](#🇰🇷)
-### [해외 기업 블로그](#🌎)
+### [국내 기업 블로그](#국내-기업-블로그)
+### [해외 기업 블로그](#해외-기업-블로그)
 
 ---
 
 ### 🇰🇷
-### 국내 기술 블로그
+### 국내 기업 블로그
 - [강남언니](https://blog.gangnamunni.com/blog/tech/)
 - [그린랩스](https://green-labs.github.io/)
 - [네이버플레이스](https://medium.com/naver-place-dev)
