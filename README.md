@@ -1,6 +1,6 @@
 ![MOEUDA](./moamoa.png)
-
-# 목차
+---
+### 목차
 
 - [아티클](https://github.com/dev-wooyeon/archive/tree/main/article#목차)
 - [백엔드](https://github.com/dev-wooyeon/archive/tree/main/backend#목차)
