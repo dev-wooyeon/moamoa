@@ -21,5 +21,8 @@
 - [데이터베이스](https://github.com/dev-wooyeon/archive/tree/main/데이터베이스#목차)
 - [프론트엔드](https://github.com/dev-wooyeon/archive/tree/main/프론트엔드#목차)
 - [면접](https://github.com/dev-wooyeon/archive/tree/main/interview#목차)
+- [동아리 및 교육](https://github.com/dev-wooyeon/archive/tree/main/동아리-및-교육#목차)
+  - [동아리](https://github.com/dev-wooyeon/archive/tree/main/동아리-및-교육#동아리)
+  - [교육](https://github.com/dev-wooyeon/archive/tree/main/동아리-및-교육#교육)
 
 ## 여기
