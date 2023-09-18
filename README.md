@@ -13,13 +13,13 @@
 ---
 ### 목차
 
-- [아티클](https://github.com/dev-wooyeon/archive/tree/main/article#목차)
-- [백엔드](https://github.com/dev-wooyeon/archive/tree/main/backend#목차)
-  - [전공책](https://github.com/dev-wooyeon/archive/tree/main/backend/book#목차)
-  - [강의](https://github.com/dev-wooyeon/archive/tree/main/backend/course#목차)
-- [블로그](https://github.com/dev-wooyeon/archive/tree/main/blog#목차)
-- [데이터베이스](https://github.com/dev-wooyeon/archive/tree/main/database#목차)
-- [프론트엔드](https://github.com/dev-wooyeon/archive/tree/main/frontend#목차)
+- [아티클](https://github.com/dev-wooyeon/archive/tree/main/아티클#목차)
+- [백엔드](https://github.com/dev-wooyeon/archive/tree/main/백엔드#목차)
+  - [전공책](https://github.com/dev-wooyeon/archive/tree/main/백엔드/서적#목차)
+  - [강의](https://github.com/dev-wooyeon/archive/tree/main/백엔드/강의#목차)
+- [블로그](https://github.com/dev-wooyeon/archive/tree/main/블로그#목차)
+- [데이터베이스](https://github.com/dev-wooyeon/archive/tree/main/데이터베이스#목차)
+- [프론트엔드](https://github.com/dev-wooyeon/archive/tree/main/프론트엔드#목차)
 - [면접](https://github.com/dev-wooyeon/archive/tree/main/interview#목차)
 
 ## 여기
