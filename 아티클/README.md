@@ -1,7 +1,7 @@
 # 목차
 
 - [읽을거리](#읽을거리)
-
+- [볼거리](#볼거리)
 
 
 ### 읽을거리
@@ -14,3 +14,7 @@
 - [XY Problem 이란?](https://americanopeople.tistory.com/351)
 - [주둥아리 주도 개발](https://github.com/Lee-WonJun/JDD-Description)
 - [국내 스시 오마카세 맛집 리스트](https://github.com/738/awesome-sushi)
+
+### 볼거리
+
+- [요즘 신입 개발자 취업이 안되는 이유(모태펀드)](https://www.youtube.com/watch?v=ko40F5yBdKg)
