@@ -23,6 +23,6 @@
 - [면접](https://github.com/dev-wooyeon/archive/tree/main/interview#목차)
 - [동아리 및 교육](https://github.com/dev-wooyeon/archive/tree/main/동아리%20및%20교육#목차)
   - [동아리](https://github.com/dev-wooyeon/archive/tree/main/동아리%20및%20교육#동아리)
-  - [교육](https://github.com/dev-wooyeon/archive/tree/main/동아리%20및%20교육#교육)
+  - [교육](https://github.com/dev-wooyeon/archive/tree/main/동아리%20및%20교육#교육%20프로그램)
 
 ## 여기
