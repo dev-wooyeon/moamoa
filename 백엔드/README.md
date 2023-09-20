@@ -1,8 +1,8 @@
 # 목차
 
 ### [로드맵](#로드맵)
-### [서적](https://github.com/dev-wooyeon/archive/blob/main/backend/서적/README.md#목차)
-### [강의](https://github.com/dev-wooyeon/archive/blob/main/backend/강의/README.md#목차)
+### [서적](https://github.com/dev-wooyeon/archive/blob/main/백엔드/서적/README.md#목차)
+### [강의](https://github.com/dev-wooyeon/archive/blob/main/백엔드/강의/README.md#목차)
 
 ---
 ### 로드맵
