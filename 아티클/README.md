@@ -5,6 +5,7 @@
 
 
 ### 읽을거리
+- [브라이언 체스키가 Airbnb에서 PM을 없애버린 이유](https://eopla.net/magazines/6744)
 - [Why DDD, Clean Architecture and Hexagonal ?](https://dataportal.kr/74)
 - [Java&Spring 개발자가 Ruby on Rails 를 해보고 마주친 생각들](https://blog.dramancompany.com/2020/11/java-spring-ruby-on-rails/)
 - [트위터 시스템 디자인 영상 요약](https://traw.ai/video/5f0c01b2-5db7-450f-b827-fad2e24afb6e)
