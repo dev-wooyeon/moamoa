@@ -21,12 +21,14 @@
 ### OOP
 - [객체지향의 사실과 오해](https://book.naver.com/bookdb/book_detail.nhn?bid=9145968)
 - [오브젝트](https://book.naver.com/bookdb/book_detail.nhn?bid=15007773)
+- [스프링 입문을 위한 자바 객체 지향의 원리와 이해](https://www.yes24.com/Product/Goods/17350624)
 
 ### JavaScript
 - [코어 자바스크립트](https://www.yes24.com/Product/Goods/78586788)
 
 ### Database
 - [MYSQL 성능 최적화](https://book.naver.com/bookdb/book_detail.nhn?bid=6397948)
+- [SQL 첫걸음](https://www.yes24.com/Product/Goods/22744867)
 
 ### DDD
 - [DDD Start!](https://book.naver.com/bookdb/book_detail.nhn?bid=10615650)
@@ -47,6 +49,7 @@
 
 ### OS
 - [(공룡책) Operating System Concepts](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=224604417)
+- [혼자 공부하는 컴퓨터 구조+운영체제](https://www.yes24.com/Product/Goods/111378840)
 
 ### ETC
 - [테스트 주도 개발](https://book.naver.com/bookdb/book_detail.nhn?bid=7443642)
