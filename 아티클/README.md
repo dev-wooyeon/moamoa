@@ -5,7 +5,7 @@
 
 
 ### 읽을거리
-- [브라이언 체스키가 Airbnb에서 PM을 없애버린 이유](https://eopla.net/magazines/6744)
+
 - [Why DDD, Clean Architecture and Hexagonal ?](https://dataportal.kr/74)
 - [Java&Spring 개발자가 Ruby on Rails 를 해보고 마주친 생각들](https://blog.dramancompany.com/2020/11/java-spring-ruby-on-rails/)
 - [트위터 시스템 디자인 영상 요약](https://traw.ai/video/5f0c01b2-5db7-450f-b827-fad2e24afb6e)
@@ -17,5 +17,7 @@
 - [국내 스시 오마카세 맛집 리스트](https://github.com/738/awesome-sushi)
 
 ### 볼거리
-
+- [제 3회 Kakao Tech Meet / DKAPTCHA: 지도 이미지와 음성을 활용한 어뷰징 방지 전략](https://tech.kakao.com/2023/09/22/techmeet-dkaptcha/)
+- [제 3회 Kakao Tech Meet / 신뢰성 있는 카프카 애플리케이션을 만드는 3가지 방법](https://tech.kakao.com/2023/09/22/techmeet-kafka/)
+- [제 3회 Kakao Tech Meet / 폭증하는 카카오톡 트래픽에 대처하는 방법](https://tech.kakao.com/2023/09/22/techmeet-traffic/)
 - [요즘 신입 개발자 취업이 안되는 이유(모태펀드)](https://www.youtube.com/watch?v=ko40F5yBdKg)
