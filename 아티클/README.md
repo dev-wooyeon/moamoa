@@ -16,7 +16,8 @@
 - [주둥아리 주도 개발](https://github.com/Lee-WonJun/JDD-Description)
 - [국내 스시 오마카세 맛집 리스트](https://github.com/738/awesome-sushi)
 
-### 볼거리
+### 볼거리  
+- [Service 에 너무 많은 책임 어떻게 관리할까?](https://www.youtube.com/watch?v=L3y3xk56SI8)  
 - [제 3회 Kakao Tech Meet / DKAPTCHA: 지도 이미지와 음성을 활용한 어뷰징 방지 전략](https://tech.kakao.com/2023/09/22/techmeet-dkaptcha/)
 - [제 3회 Kakao Tech Meet / 신뢰성 있는 카프카 애플리케이션을 만드는 3가지 방법](https://tech.kakao.com/2023/09/22/techmeet-kafka/)
 - [제 3회 Kakao Tech Meet / 폭증하는 카카오톡 트래픽에 대처하는 방법](https://tech.kakao.com/2023/09/22/techmeet-traffic/)
