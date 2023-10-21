@@ -20,7 +20,7 @@ MOAMOA는 유용한 정보들을 모아 한눈에 볼 수 있는 컨텐츠를 �
 - [블로그](https://github.com/dev-wooyeon/archive/tree/main/블로그#목차)
 - [데이터베이스](https://github.com/dev-wooyeon/archive/tree/main/데이터베이스#목차)
 - [프론트엔드](https://github.com/dev-wooyeon/archive/tree/main/프론트엔드#목차)
-- [면접](https://github.com/dev-wooyeon/archive/tree/main/interview#목차)
+- [면접](https://github.com/dev-wooyeon/archive/tree/main/면접#목차)
 - [동아리 및 교육](https://github.com/dev-wooyeon/archive/tree/main/동아리%20및%20교육#목차)
   - [동아리](https://github.com/dev-wooyeon/archive/tree/main/동아리%20및%20교육#동아리)
   - [교육](https://github.com/dev-wooyeon/archive/tree/main/동아리%20및%20교육#교육%20프로그램)
