@@ -12,4 +12,4 @@
 ### 서적
 
 ### 강의
-![리액트 입문자 강의(Velopert](https://react.vlpt.us/)
+![리액트 입문자 강의(Velopert)](https://react.vlpt.us/)
