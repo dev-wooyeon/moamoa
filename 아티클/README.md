@@ -6,6 +6,7 @@
 
 ### 읽을거리
 
+- [지속가능한 개발자 성장 스킬 5가지](https://blog.f-lab.kr/blog/sustainable-developer-growth-skills)
 - [Why DDD, Clean Architecture and Hexagonal ?](https://dataportal.kr/74)
 - [Java&Spring 개발자가 Ruby on Rails 를 해보고 마주친 생각들](https://blog.dramancompany.com/2020/11/java-spring-ruby-on-rails/)
 - [트위터 시스템 디자인 영상 요약](https://traw.ai/video/5f0c01b2-5db7-450f-b827-fad2e24afb6e)
