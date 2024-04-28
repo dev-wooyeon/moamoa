@@ -4,6 +4,7 @@
 - [OOP](#OOP)
 - [JavaScript](#JavaScript)
 - [Database](#Database)
+- [JPA](#JPA)
 - [DDD](#DDD)
 - [Network](#Network)
 - [Container](#Container)
@@ -29,6 +30,10 @@
 ### Database
 - [MYSQL 성능 최적화](https://book.naver.com/bookdb/book_detail.nhn?bid=6397948)
 - [SQL 첫걸음](https://www.yes24.com/Product/Goods/22744867)
+
+### JPA
+- [자바 ORM 표준 JPA 프로그래밍](https://search.shopping.naver.com/book/catalog/32436007738)
+- [스프링부트 JPA 모범사례](https://search.shopping.naver.com/book/catalog/46359468619)
 
 ### DDD
 - [DDD Start!](https://book.naver.com/bookdb/book_detail.nhn?bid=10615650)
