@@ -11,7 +11,7 @@
 
 ### 카카오
 - [카카오 비지니스 세미나](https://bizseminar.kakao.com/seminar)
-- []https://if.kakao.com/
+- [카카오 개발자 컨퍼런스](https://if.kakao.com)
 
 ### 토스
 - [토스 Slash-21](https://toss.im/slash-21)
