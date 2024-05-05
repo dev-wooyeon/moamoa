@@ -30,7 +30,7 @@
 - [쿠팡](https://medium.com/coupang-engineering/kr/home)
 - [토스](https://toss.tech/)
 - [화해](http://blog.hwahae.co.kr/category/all/tech)
-- [Delivery Tech Korea](https://techblog.yogiyo.co.kr/)
+- [요기요](https://techblog.yogiyo.co.kr/)
 - [DRAMA&COMPANY](https://blog.dramancompany.com/)
 - [ESTsoft Tech](https://blog.est.ai/)
 - [HYPERCONNECT](https://hyperconnect.github.io/)
