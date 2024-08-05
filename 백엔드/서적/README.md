@@ -12,7 +12,7 @@
 - [OS](#OS)
 - [ETC](#ETC)
 - [Spring](#Spring)
-
+- [Mind](#Mind)
 ---
 
 ### Java
@@ -68,3 +68,6 @@
 - [객체 지향과 디자인 패턴](https://book.naver.com/bookdb/book_detail.nhn?bid=7255217)
 - [자바 ORM 표준 JPA 프로그래밍](https://book.naver.com/bookdb/book_detail.nhn?bid=9252528)
     
+### Mind
+- [육각형 개발자](https://www.aladin.co.kr/m/mproduct.aspx?ItemId=321520931&start=slayer)
+- [소프트웨어 장인](https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000002974525)
