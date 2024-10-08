@@ -2,7 +2,9 @@
 
 - [스프링](#스프링)
 - [디자인패턴](#디자인패턴)
+- [자바](#자바)
 - [코틀린](#코틀린)
+- [객체지향](#객체지향)
 
 ### 스프링
 - [우아한형제들 최연소 기술이사 김영한의 스프링 완전 정복](https://www.inflearn.com/roadmaps/373)
@@ -19,3 +21,6 @@
 - [자바 개발자를 위한 코틀린 입문](https://www.inflearn.com/course/java-to-kotlin/dashboard)
 - [실전! 코틀린과 스프링 부트로 도서관리 애플리케이션 개발하기](https://www.inflearn.com/course/java-to-kotlin-2/dashboard)
 - [코틀린 고급편](https://inf.run/Sc1S)
+
+### 객체지향
+- [오브젝트-기초편](https://www.inflearn.com/course/%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8-%EA%B8%B0%EC%B4%88%ED%8E%B8-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5)
