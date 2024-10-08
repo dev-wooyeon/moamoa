@@ -1,5 +1,5 @@
 ### 기술스택 아이콘
- 사이트 : https://skillicons.dev/
+- 사이트 : https://skillicons.dev/
 ![image](https://github.com/user-attachments/assets/94ae32a3-eac6-4e78-b605-a4dfca63997b)
 
 ### 헤더 꾸미기
