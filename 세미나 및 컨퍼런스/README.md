@@ -17,3 +17,6 @@
 - [토스 Slash-21](https://toss.im/slash-21)
 - [토스 Slash-22](https://toss.im/slash-22)
 - [토스 Slash-23](https://toss.im/slash-23)
+
+### 당근
+- [2024 당근 테크 밋업 가이드](https://daangn.notion.site/2024-2f42802561d14f2bbdf0ef18a2786732)
