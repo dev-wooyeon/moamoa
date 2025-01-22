@@ -5,7 +5,7 @@
 
 
 ### 읽을거리
-
+- [Hexagonal Architecture, 진짜 하실 건가요?](https://tech.kakaopay.com/post/home-hexagonal-architecture/)
 - [지속가능한 개발자 성장 스킬 5가지](https://blog.f-lab.kr/blog/sustainable-developer-growth-skills)
 - [Why DDD, Clean Architecture and Hexagonal ?](https://dataportal.kr/74)
 - [Java&Spring 개발자가 Ruby on Rails 를 해보고 마주친 생각들](https://blog.dramancompany.com/2020/11/java-spring-ruby-on-rails/)
