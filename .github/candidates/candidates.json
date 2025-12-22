@@ -1,0 +1,65 @@
+[
+  {
+    "article": {
+      "title": "Show GN: Spring AI Playground - No-code Tool Studio + Live MCP 서버 + Inspector + Agentic Chat",
+      "url": "https://news.hada.io/topic?id=25248",
+      "source": "GeekNews",
+      "published_at": "2025-12-22T00:00:00Z"
+    },
+    "score": 66.0,
+    "breakdown": {
+      "base": 50,
+      "title_quality": 5,
+      "content_depth": 5,
+      "practicality": 3,
+      "topic_relevance": 5,
+      "recency": 3,
+      "social_score": 5,
+      "penalty": 0,
+      "upvotes": 10,
+      "comments": 5
+    }
+  },
+  {
+    "article": {
+      "title": "Hexagonal Architecture, 진짜 하실 건가요?",
+      "url": "https://tech.kakaopay.com/post/home-hexagonal-architecture",
+      "source": "GeekNews",
+      "published_at": "2023-01-01T00:00:00Z"
+    },
+    "score": 85.0,
+    "breakdown": {
+      "base": 50,
+      "title_quality": 8,
+      "content_depth": 8,
+      "practicality": 7,
+      "topic_relevance": 8,
+      "recency": 0,
+      "social_score": 4,
+      "penalty": 0,
+      "upvotes": 15,
+      "comments": 8
+    }
+  },
+  {
+    "article": {
+      "title": "지속가능한 개발자 성장 스킬 5가지",
+      "url": "https://blog.f-lab.kr/blog/sustainable-developer-growth-skills",
+      "source": "GeekNews",
+      "published_at": "2024-01-01T00:00:00Z"
+    },
+    "score": 82.0,
+    "breakdown": {
+      "base": 50,
+      "title_quality": 7,
+      "content_depth": 6,
+      "practicality": 8,
+      "topic_relevance": 7,
+      "recency": 0,
+      "social_score": 4,
+      "penalty": 0,
+      "upvotes": 12,
+      "comments": 6
+    }
+  }
+]
