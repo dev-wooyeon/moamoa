@@ -12,22 +12,18 @@ MOAMOA는 유용한 정보들을 모아 한눈에 볼 수 있는 컨텐츠를 �
 
 ---
 ### 목차
-- [AI](https://github.com/dev-wooyeon/moamoa/tree/main/AI#목차)
-- [깃허브꾸미기](https://github.com/dev-wooyeon/moamoa/tree/main/깃허브꾸미기#목차)
-- [데이터베이스](https://github.com/dev-wooyeon/moamoa/tree/main/데이터베이스)
-- [도서](https://github.com/dev-wooyeon/momaoa/tree/main/도서)
-  - [도서추천](https://github.com/dev-wooyeon/momaoa/tree/main/도서/recommend.md)
-  - [도서리스트](https://github.com/dev-wooyeon/moamoa/tree/main/도서/list.md)
-- [아티클](https://github.com/dev-wooyeon/archive/tree/main/아티클#목차)
-- [백엔드](https://github.com/dev-wooyeon/archive/tree/main/백엔드#목차)
-  - [전공책](https://github.com/dev-wooyeon/archive/tree/main/백엔드/서적#목차)
-  - [강의](https://github.com/dev-wooyeon/archive/tree/main/백엔드/강의#목차)
-- [블로그](https://github.com/dev-wooyeon/archive/tree/main/블로그#목차)
-- [데이터베이스](https://github.com/dev-wooyeon/archive/tree/main/데이터베이스#목차)
-- [프론트엔드](https://github.com/dev-wooyeon/archive/tree/main/프론트엔드#목차)
-- [면접](https://github.com/dev-wooyeon/archive/tree/main/면접#목차)
-- [동아리 및 교육](https://github.com/dev-wooyeon/archive/tree/main/동아리%20및%20교육#목차)
-  - [동아리](https://github.com/dev-wooyeon/archive/tree/main/동아리%20및%20교육#동아리)
-  - [교육](https://github.com/dev-wooyeon/archive/tree/main/동아리%20및%20교육#교육%20프로그램)
+| 영역 | 설명 | 바로가기 |
+|---|---|---|
+| 🤖 AI | AI 개념, 활용 사례, 실험 기록 | [이동](./AI/README.md) |
+| 🎨 깃허브 꾸미기 | GitHub 프로필, README, 브랜딩 정리 | [이동](./깃허브꾸미기/readme.md) |
+| 🗄 데이터베이스 | 데이터베이스 개념 및 정리 노트 | [이동](./데이터베이스/README.md) |
+| 📚 도서 | 추천 도서 가이드 및 전체 아카이브 | [이동](./도서/recommend.md) |
+| 🧱 백엔드 | 백엔드 전반 개념 및 학습 정리 | [이동](./백엔드/README.md) |
+| 🖥 프론트엔드 | 프론트엔드 기초 및 정리 | [이동](./프론트엔드/README.md) |
+| ✍️ 아티클 | 읽을거리 및 참고 아티클 모음 | [이동](./아티클/README.md) |
+| 📰 블로그 | 블로그 글 정리 및 기록 | [이동](./블로그/README.md) |
+| 🎤 세미나 및 컨퍼런스 | 세미나, 컨퍼런스 참석 기록 | [이동](./세미나%20및%20컨퍼런스/README.md) |
+| 🧪 면접 | 면접 준비 및 질문 정리 | [이동](./면접/README.md) |
+| 🎓 동아리 및 교육 | 동아리 활동, 교육 과정 정리 | [이동](./동아리%20및%20교육/README.md) |
 
 ## 여기
