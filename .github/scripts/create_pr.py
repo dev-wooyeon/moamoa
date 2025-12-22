@@ -181,10 +181,29 @@ def create_pr_for_candidates(candidates, source_type):
             subprocess.run(['git', 'config', '--global', 'user.name', 'github-actions[bot]'], check=True)
             subprocess.run(['git', 'config', '--global', 'user.email', 'github-actions[bot]@users.noreply.github.com'], check=True)
 
-            # 파일 추가 및 커밋
-            subprocess.run(['git', 'add', filepath], check=True)
-            commit_message = f"Add article candidates - {today} ({source_type})"
-            subprocess.run(['git', 'commit', '-m', commit_message], check=True)
+            # 프로젝트 루트 디렉토리로 이동하여 git 작업 수행
+            project_root = os.path.join(os.path.dirname(__file__), '..', '..')
+            original_cwd = os.getcwd()
+
+            try:
+                os.chdir(project_root)
+                print(f"Changed working directory to: {project_root}")
+
+                # 새 브랜치 생성 및 체크아웃
+                branch_name = f'article-candidates-{today}-{source_type.lower()}'
+                subprocess.run(['git', 'checkout', '-b', branch_name], check=True)
+                print(f"Created and switched to branch: {branch_name}")
+
+                # 파일 추가 및 커밋 (루트 기준 상대 경로 사용)
+                relative_filepath = os.path.relpath(filepath, project_root)
+                subprocess.run(['git', 'add', relative_filepath], check=True)
+                commit_message = f"Add article candidates - {today} ({source_type})"
+                subprocess.run(['git', 'commit', '-m', commit_message], check=True)
+                print(f"Committed changes: {commit_message}")
+
+            finally:
+                # 원래 디렉토리로 복귀
+                os.chdir(original_cwd)
 
             # PR 생성
             pr_title = f"📚 아티클 후보 제안 - {today} ({source_type})"
@@ -195,7 +214,7 @@ def create_pr_for_candidates(candidates, source_type):
                 '--title', pr_title,
                 '--body', pr_body,
                 '--base', 'main',
-                '--head', f'article-candidates-{today}'
+                '--head', branch_name
             ], capture_output=True, text=True, check=True)
 
             print(f"Created PR: {result.stdout.strip()}")
