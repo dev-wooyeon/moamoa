@@ -221,6 +221,8 @@ def create_pr_for_candidates(candidates, source_type):
 
         except subprocess.CalledProcessError as e:
             print(f"Error creating PR: {e}")
+            if e.stderr:
+                print(f"Error details: {e.stderr}")
             print("This is expected in local environment. In GitHub Actions, PR will be created automatically.")
         except FileNotFoundError as e:
             print(f"GitHub CLI not found: {e}")
