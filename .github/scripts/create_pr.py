@@ -201,6 +201,10 @@ def create_pr_for_candidates(candidates, source_type):
                 subprocess.run(['git', 'commit', '-m', commit_message], check=True)
                 print(f"Committed changes: {commit_message}")
 
+                # 원격 저장소로 브랜치 푸시
+                subprocess.run(['git', 'push', '--force', '--set-upstream', 'origin', branch_name], check=True)
+                print(f"Pushed branch {branch_name} to origin")
+
             finally:
                 # 원래 디렉토리로 복귀
                 os.chdir(original_cwd)
