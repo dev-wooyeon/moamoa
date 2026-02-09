@@ -145,12 +145,65 @@ def create_markdown_content(candidates, source_type):
 
     return content
 
+def update_archive_file(high_score_candidates, project_root):
+    """
+    점수 높은 아티클들을 `아티클/GeekNews.md` 파일에 추가합니다.
+    """
+    if not high_score_candidates:
+        print("No high-score articles to archive.")
+        return
+
+    archive_filepath = os.path.join(project_root, '아티클', 'GeekNews.md')
+    print(f"Updating archive file: {archive_filepath}")
+
+    # 주제별로 아티클 분류
+    articles_by_topic = {}
+    for candidate in high_score_candidates:
+        topic = classify_topic(candidate['article'])
+        if topic not in articles_by_topic:
+            articles_by_topic[topic] = []
+        
+        article = candidate['article']
+        # 아티클 형식: - [제목](링크)
+        article_md = f"- [{article['title']}]({article['url']})"
+        articles_by_topic[topic].append(article_md)
+
+    try:
+        with open(archive_filepath, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+
+        new_lines = []
+        for line in lines:
+            new_lines.append(line)
+            # 주제 헤더를 찾으면, 해당 주제의 아티클들을 바로 아래에 추가
+            for topic_key, topic_name in TOPIC_NAMES.items():
+                if line.strip() == f"## {topic_name}":
+                    if topic_key in articles_by_topic:
+                        for article_md in articles_by_topic[topic_key]:
+                            # 중복 추가 방지
+                            if f"{article_md.split('](')[0]}]" not in "".join(lines):
+                                new_lines.append(f"{article_md}\n")
+                                print(f"  + Added '{article_md.split('](')[0][2:]}' to {topic_name}")
+                        # 처리된 주제는 삭제
+                        del articles_by_topic[topic_key]
+
+        with open(archive_filepath, 'w', encoding='utf-8') as f:
+            f.writelines(new_lines)
+        
+        print("Archive file update completed.")
+
+    except FileNotFoundError:
+        print(f"Archive file not found: {archive_filepath}. Skipping update.")
+    except Exception as e:
+        print(f"Error updating archive file: {e}")
+
+
 def create_pr_for_candidates(candidates, source_type):
     """후보 아티클에 대한 PR 생성"""
     if not candidates:
         print(f"No candidates for {source_type}")
         return
-
+    
     today = datetime.now().strftime('%Y-%m-%d')
     filename = f"{today}-{source_type.lower()}.md"
 
@@ -166,22 +219,21 @@ def create_pr_for_candidates(candidates, source_type):
 
     print(f"Created {filepath} with {len(candidates)} candidates")
 
-    # GitHub CLI를 사용한 PR 생성 (점수 50 이상인 경우)
-    high_score_candidates = [c for c in candidates if c['score'] >= 50]
-    if high_score_candidates:
+    # 점수 80점 이상인 추천 아티클만 PR에 반영
+    recommended_candidates = [c for c in candidates if c['score'] >= 80]
+    
+    if recommended_candidates:
         try:
             # GitHub CLI 설치 확인
             result = subprocess.run(['which', 'gh'], capture_output=True, text=True)
             if result.returncode != 0:
                 print("GitHub CLI (gh) not found. Skipping PR creation.")
-                print("In GitHub Actions environment, this will work automatically.")
                 return
 
             # Git 설정
             subprocess.run(['git', 'config', '--global', 'user.name', 'github-actions[bot]'], check=True)
             subprocess.run(['git', 'config', '--global', 'user.email', 'github-actions[bot]@users.noreply.github.com'], check=True)
 
-            # 프로젝트 루트 디렉토리로 이동하여 git 작업 수행
             project_root = os.path.join(os.path.dirname(__file__), '..', '..')
             original_cwd = os.getcwd()
 
@@ -189,30 +241,38 @@ def create_pr_for_candidates(candidates, source_type):
                 os.chdir(project_root)
                 print(f"Changed working directory to: {project_root}")
 
-                # 새 브랜치 생성 및 체크아웃
                 branch_name = f'article-candidates-{today}-{source_type.lower()}'
                 subprocess.run(['git', 'checkout', '-b', branch_name], check=True)
                 print(f"Created and switched to branch: {branch_name}")
 
-                # 파일 추가 및 커밋 (루트 기준 상대 경로 사용)
-                relative_filepath = os.path.relpath(filepath, project_root)
-                subprocess.run(['git', 'add', relative_filepath], check=True)
-                commit_message = f"Add article candidates - {today} ({source_type})"
+                # 추천 아티클을 메인 아카이브 파일에 추가
+                if source_type == 'geeknews': # GeekNews 아티클만 아카이브에 자동 추가
+                    update_archive_file(recommended_candidates, project_root)
+
+                # 변경된 파일들을 git에 추가
+                review_filepath_rel = os.path.relpath(filepath, project_root)
+                archive_filepath_rel = os.path.join('아티클', 'GeekNews.md')
+                
+                subprocess.run(['git', 'add', review_filepath_rel, archive_filepath_rel], check=True)
+                
+                commit_message = f"feat: Add article candidates for {today} ({source_type})"
                 subprocess.run(['git', 'commit', '-m', commit_message], check=True)
                 print(f"Committed changes: {commit_message}")
 
-                # 원격 저장소로 브랜치 푸시
                 subprocess.run(['git', 'push', '--force', '--set-upstream', 'origin', branch_name], check=True)
                 print(f"Pushed branch {branch_name} to origin")
 
             finally:
-                # 원래 디렉토리로 복귀
                 os.chdir(original_cwd)
 
             # PR 생성
-            pr_title = f"📚 아티클 후보 제안 - {today} ({source_type})"
-            pr_body = f"자동으로 수집된 {source_type} 아티클 후보입니다.\n\n점수 50 이상인 아티클들은 검토 후 아카이브에 추가해 주세요."
-
+            pr_title = f"📚 아티클 후보 제안 ({today}, {source_type})"
+            pr_body = (
+                f"자동으로 수집된 {source_type} 아티클 후보입니다.\n\n"
+                "점수 80점 이상인 아티클들은 `아티클/GeekNews.md`에 자동으로 추가되었습니다.\n\n"
+                "PR 내역을 검토하고 Merge 해주세요."
+            )
+            
             result = subprocess.run([
                 'gh', 'pr', 'create',
                 '--title', pr_title,
@@ -227,12 +287,11 @@ def create_pr_for_candidates(candidates, source_type):
             print(f"Error creating PR: {e}")
             if e.stderr:
                 print(f"Error details: {e.stderr}")
-            print("This is expected in local environment. In GitHub Actions, PR will be created automatically.")
-        except FileNotFoundError as e:
-            print(f"GitHub CLI not found: {e}")
-            print("This script is designed to run in GitHub Actions environment.")
+        except FileNotFoundError:
+            print("GitHub CLI (gh) not found. This script requires 'gh'.")
     else:
-        print(f"No high-score candidates (>= 50) for {source_type}, skipping PR creation")
+        print(f"No recommended candidates (>= 80) for {source_type}, skipping PR creation.")
+
 
 def main():
     """메인 PR 생성 함수"""
