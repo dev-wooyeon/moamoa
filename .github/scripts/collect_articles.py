@@ -6,13 +6,155 @@ GeekNews와 RSS 피드에서 최신 아티클을 수집합니다.
 
 import json
 import os
+import re
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import feedparser
 from dateutil import parser as date_parser
+from urllib.parse import parse_qsl, urlencode, urljoin, urlparse, urlunparse
 
-def collect_geeknews():
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+GITHUB_DIR = os.path.dirname(SCRIPT_DIR)
+CANDIDATES_DIR = os.path.join(GITHUB_DIR, 'candidates')
+PROCESSED_URLS_FILE = os.path.join(CANDIDATES_DIR, 'processed_urls.json')
+COLLECTED_ARTICLES_FILE = os.path.join(CANDIDATES_DIR, 'collected_articles.json')
+
+TRACKING_QUERY_KEYS = {
+    'fbclid', 'gclid', 'mc_cid', 'mc_eid', 'ref', 'ref_src', 'source'
+}
+
+
+def ensure_candidates_dir():
+    os.makedirs(CANDIDATES_DIR, exist_ok=True)
+
+
+def normalize_url(url):
+    """URL 정규화 (중복 제거를 위한 canonical URL 생성)"""
+    if not url:
+        return ""
+
+    try:
+        parsed = urlparse(url.strip())
+        scheme = (parsed.scheme or 'https').lower()
+        netloc = parsed.netloc.lower()
+        path = parsed.path.rstrip('/') or '/'
+
+        query_pairs = []
+        for key, value in parse_qsl(parsed.query, keep_blank_values=False):
+            key_lower = key.lower()
+            if key_lower.startswith('utm_') or key_lower in TRACKING_QUERY_KEYS:
+                continue
+            query_pairs.append((key, value))
+
+        query_pairs.sort(key=lambda x: (x[0], x[1]))
+        query = urlencode(query_pairs, doseq=True)
+        return urlunparse((scheme, netloc, path, '', query, ''))
+    except Exception:
+        return url.strip()
+
+
+def normalize_title(title):
+    """제목 정규화 (URL이 다르더라도 동일 아티클 감지)"""
+    if not title:
+        return ""
+    lowered = title.lower().strip()
+    cleaned = re.sub(r'[^\w가-힣]+', ' ', lowered)
+    return re.sub(r'\s+', ' ', cleaned).strip()
+
+
+def safe_int(value):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return 0
+
+
+def parse_datetime(value):
+    if not value:
+        return None
+    try:
+        return date_parser.parse(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def merge_articles(existing, incoming):
+    """중복 아티클 병합: 더 풍부한 메타데이터를 유지"""
+    merged = dict(existing)
+
+    # URL은 canonical URL을 우선 사용
+    existing_url = normalize_url(existing.get('url'))
+    incoming_url = normalize_url(incoming.get('url'))
+    if incoming_url and (not existing_url or len(incoming_url) > len(existing_url)):
+        merged['url'] = incoming_url
+    elif existing_url:
+        merged['url'] = existing_url
+
+    # 제목/요약은 더 긴 정보를 유지
+    if len(incoming.get('title', '')) > len(existing.get('title', '')):
+        merged['title'] = incoming.get('title', '')
+    if len(incoming.get('summary', '')) > len(existing.get('summary', '')):
+        merged['summary'] = incoming.get('summary', '')
+
+    # 소셜 지표는 큰 값을 유지
+    merged['upvotes'] = max(safe_int(existing.get('upvotes')), safe_int(incoming.get('upvotes')))
+    merged['comments'] = max(safe_int(existing.get('comments')), safe_int(incoming.get('comments')))
+
+    # 발행일은 최신 값을 유지
+    existing_dt = parse_datetime(existing.get('published_at'))
+    incoming_dt = parse_datetime(incoming.get('published_at'))
+    if existing_dt and incoming_dt:
+        merged['published_at'] = max(existing_dt, incoming_dt).isoformat()
+    elif incoming_dt:
+        merged['published_at'] = incoming_dt.isoformat()
+    elif existing_dt:
+        merged['published_at'] = existing_dt.isoformat()
+    else:
+        merged['published_at'] = incoming.get('published_at', existing.get('published_at', datetime.now().isoformat()))
+
+    # 출처는 기존 값 유지 (평가 로직 호환)
+    merged['source'] = existing.get('source') or incoming.get('source') or 'GeekNews'
+    return merged
+
+
+def deduplicate_articles(articles):
+    """URL/제목 기반 중복 제거"""
+    deduped = []
+    url_index = {}
+    title_index = {}
+
+    for article in articles:
+        normalized_url = normalize_url(article.get('url', ''))
+        normalized_title = normalize_title(article.get('title', ''))
+
+        article_copy = dict(article)
+        if normalized_url:
+            article_copy['url'] = normalized_url
+
+        existing_idx = None
+        if normalized_url and normalized_url in url_index:
+            existing_idx = url_index[normalized_url]
+        elif normalized_title and normalized_title in title_index:
+            existing_idx = title_index[normalized_title]
+
+        if existing_idx is None:
+            deduped.append(article_copy)
+            idx = len(deduped) - 1
+            if normalized_url:
+                url_index[normalized_url] = idx
+            if normalized_title:
+                title_index[normalized_title] = idx
+        else:
+            deduped[existing_idx] = merge_articles(deduped[existing_idx], article_copy)
+            if normalized_url:
+                url_index[normalized_url] = existing_idx
+            if normalized_title:
+                title_index[normalized_title] = existing_idx
+
+    return deduped
+
+def collect_geeknews(processed_urls):
     """GeekNews에서 최신 아티클 수집"""
     url = "https://news.hada.io"
     headers = {
@@ -36,7 +178,13 @@ def collect_geeknews():
                     continue
 
                 title = title_elem.get_text(strip=True)
-                link = title_elem['href']
+                raw_link = title_elem.get('href', '').strip()
+                if not raw_link:
+                    continue
+
+                link = normalize_url(urljoin(url, raw_link))
+                if link in processed_urls:
+                    continue
 
                 # 추천수
                 upvotes = 0
@@ -86,21 +234,22 @@ def collect_geeknews():
 
 def load_processed_urls():
     """이전에 처리된 URL 목록 로드"""
-    url_file = os.path.join(os.path.dirname(__file__), '..', '..', 'candidates', 'processed_urls.json')
-    if os.path.exists(url_file):
+    ensure_candidates_dir()
+    if os.path.exists(PROCESSED_URLS_FILE):
         try:
-            with open(url_file, 'r', encoding='utf-8') as f:
-                return set(json.load(f))
+            with open(PROCESSED_URLS_FILE, 'r', encoding='utf-8') as f:
+                return {normalize_url(url) for url in json.load(f) if normalize_url(url)}
         except Exception as e:
             print(f"Error loading processed URLs: {e}")
     return set()
 
 def save_processed_urls(urls):
     """처리된 URL 목록 저장"""
-    url_file = os.path.join(os.path.dirname(__file__), '..', '..', 'candidates', 'processed_urls.json')
+    ensure_candidates_dir()
     try:
-        with open(url_file, 'w', encoding='utf-8') as f:
-            json.dump(list(urls), f, ensure_ascii=False, indent=2)
+        normalized_urls = sorted({normalize_url(url) for url in urls if normalize_url(url)})
+        with open(PROCESSED_URLS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(normalized_urls, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"Error saving processed URLs: {e}")
 
@@ -131,7 +280,7 @@ def scrape_geeknews_details(url):
 
         # 댓글수 추출: "댓글 N개" 텍스트에서 추출
         comments = 0
-        comments_elem = soup.find('a', text=re.compile(r'댓글\s+\d+개'))
+        comments_elem = soup.find('a', string=re.compile(r'댓글\s+\d+개'))
         if comments_elem:
             comments_text = comments_elem.get_text(strip=True)
             comments_match = re.search(r'(\d+)개', comments_text)
@@ -147,7 +296,7 @@ def scrape_geeknews_details(url):
         print(f"Error scraping details from {url}: {e}")
         return 0, 0
 
-def collect_rss_articles():
+def collect_rss_articles(processed_urls):
     """GeekNews RSS에서 아티클 수집 - 개선된 버전"""
     geeknews_rss_url = "https://feeds.feedburner.com/geeknews-feed"
 
@@ -158,21 +307,18 @@ def collect_rss_articles():
         print(f"Error parsing GeekNews RSS: {e}")
         return []
 
-    # 이전에 처리된 URL 로드
-    processed_urls = load_processed_urls()
-    print(f"Loaded {len(processed_urls)} previously processed URLs")
-
     articles = []
     now = datetime.now()
-    cutoff_time = now - timedelta(hours=6)  # 6시간 이내 신규 아티클만 수집
-    cutoff_time = cutoff_time.replace(tzinfo=None)
-
-    new_urls = set()  # 이번에 처리할 URL들
+    cutoff_time = (now - timedelta(hours=6)).replace(tzinfo=None)
 
     for entry in feed.entries[:30]:  # 더 많은 항목 처리 (30개)
         try:
+            link = normalize_url(entry.link)
+            if not link:
+                continue
+
             # URL 중복 체크
-            if entry.link in processed_urls:
+            if link in processed_urls:
                 continue
 
             # 발행일 파싱
@@ -184,10 +330,7 @@ def collect_rss_articles():
             else:
                 continue
 
-            # timezone-naive로 변환하여 비교
             published_at_naive = published_at.replace(tzinfo=None)
-
-            # 6시간 이내 신규 아티클만 처리
             if published_at_naive < cutoff_time:
                 continue
 
@@ -201,10 +344,10 @@ def collect_rss_articles():
             # 기본 아티클 정보
             article = {
                 'title': entry.title,
-                'url': entry.link,
+                'url': link,
                 'upvotes': 0,  # 기본값
                 'comments': 0,  # 기본값
-                'published_at': published_at.isoformat(),
+                'published_at': published_at.isoformat() if published_at else datetime.now().isoformat(),
                 'summary': summary,
                 'source': 'GeekNews'
             }
@@ -225,51 +368,56 @@ def collect_rss_articles():
 
             # 상세 정보 스크래핑
             if should_scrape:
-                upvotes, comments = scrape_geeknews_details(entry.link)
+                upvotes, comments = scrape_geeknews_details(link)
                 article['upvotes'] = upvotes
                 article['comments'] = comments
                 print(f"Scraped details for: {entry.title[:50]}... (👍{upvotes}, 💬{comments})")
 
             articles.append(article)
-            new_urls.add(entry.link)
 
         except Exception as e:
             print(f"Error parsing RSS entry: {e}")
             continue
 
-    # 처리된 URL 목록 업데이트
-    processed_urls.update(new_urls)
-    save_processed_urls(processed_urls)
-
     print(f"Collected {len(articles)} new articles from RSS")
-    print(f"Updated processed URLs count: {len(processed_urls)}")
-
     return articles
 
 def main():
     """메인 수집 함수"""
     print("Starting article collection...")
+    ensure_candidates_dir()
+
+    processed_urls = load_processed_urls()
+    print(f"Loaded {len(processed_urls)} processed URLs")
 
     # GeekNews 수집
-    geeknews_articles = collect_geeknews()
+    geeknews_articles = collect_geeknews(processed_urls)
     print(f"Collected {len(geeknews_articles)} articles from GeekNews")
 
     # RSS 피드 수집
-    rss_articles = collect_rss_articles()
+    rss_articles = collect_rss_articles(processed_urls)
     print(f"Collected {len(rss_articles)} articles from RSS feeds")
 
     # 모든 아티클 합치기
     all_articles = geeknews_articles + rss_articles
+    deduped_articles = deduplicate_articles(all_articles)
+    print(f"Deduplicated {len(all_articles)} -> {len(deduped_articles)} articles")
+
+    # 처리된 URL 목록 업데이트
+    new_urls = {
+        normalize_url(article.get('url', ''))
+        for article in deduped_articles
+        if normalize_url(article.get('url', ''))
+    }
+    processed_urls.update(new_urls)
+    save_processed_urls(processed_urls)
+    print(f"Updated processed URLs count: {len(processed_urls)}")
 
     # 저장
-    output_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'candidates')
-    os.makedirs(output_dir, exist_ok=True)
+    with open(COLLECTED_ARTICLES_FILE, 'w', encoding='utf-8') as f:
+        json.dump(deduped_articles, f, ensure_ascii=False, indent=2)
 
-    output_file = os.path.join(output_dir, 'collected_articles.json')
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(all_articles, f, ensure_ascii=False, indent=2)
-
-    print(f"Saved {len(all_articles)} articles to {output_file}")
+    print(f"Saved {len(deduped_articles)} articles to {COLLECTED_ARTICLES_FILE}")
 
 if __name__ == "__main__":
     main()

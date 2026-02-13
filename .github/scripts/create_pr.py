@@ -33,6 +33,26 @@ TOPIC_NAMES = {
     'career': '🌱 개발자 성장'
 }
 
+def safe_int(value):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return 0
+
+
+def sort_candidates(candidates):
+    """랭킹 점수 우선 정렬"""
+    return sorted(
+        candidates,
+        key=lambda x: (
+            -float(x.get('ranking_score', x.get('score', 0))),
+            -float(x.get('score', 0)),
+            -safe_int(x.get('article', {}).get('upvotes')),
+            -safe_int(x.get('article', {}).get('comments'))
+        )
+    )
+
+
 def classify_topic(article):
     """아티클을 주제별로 분류"""
     title = article['title'].lower()
@@ -83,15 +103,23 @@ def create_markdown_content(candidates, source_type):
         # 점수별 분류
         high_score = [c for c in candidates_in_topic if c['score'] >= 80]
         medium_score = [c for c in candidates_in_topic if 60 <= c['score'] < 80]
+        low_score = [c for c in candidates_in_topic if 40 <= c['score'] < 60]
 
         if high_score:
             content += "### ⭐ 추천 아티클 (점수 ≥ 80)\n\n"
-            for candidate in sorted(high_score, key=lambda x: x['score'], reverse=True):
+            for candidate in sort_candidates(high_score):
                 article = candidate['article']
                 breakdown = candidate['breakdown']
+                rank = candidate.get('rank')
+                ranking_score = candidate.get('ranking_score', candidate['score'])
+                ranking_prefix = f"**랭킹:** #{rank} | " if rank else ""
 
                 content += f"#### {article['title']}\n"
-                content += f"**점수:** {candidate['score']} | **출처:** {article['source']} | **발행:** {article['published_at'][:10]}\n\n"
+                content += (
+                    f"{ranking_prefix}**랭킹 점수:** {ranking_score} | "
+                    f"**평가 점수:** {candidate['score']} | "
+                    f"**출처:** {article['source']} | **발행:** {article['published_at'][:10]}\n\n"
+                )
 
                 content += "🔍 **평가 상세:**\n"
                 content += f"- 기본 점수: +{breakdown['base']}\n"
@@ -107,10 +135,12 @@ def create_markdown_content(candidates, source_type):
 
                 content += "✅ **선정 이유:**\n"
                 reasons = []
-                if breakdown['upvotes'] > 0:
-                    reasons.append(f"- GeekNews에서 {breakdown['upvotes']}점 추천")
-                if breakdown['comments'] > 0:
-                    reasons.append(f"- {breakdown['comments']}개의 댓글")
+                upvotes = safe_int(article.get('upvotes'))
+                comments = safe_int(article.get('comments'))
+                if upvotes > 0:
+                    reasons.append(f"- GeekNews에서 {upvotes}점 추천")
+                if comments > 0:
+                    reasons.append(f"- {comments}개의 댓글")
                 if breakdown['recency'] > 0:
                     reasons.append("- 최근 24시간 내 발행")
                 if breakdown['topic_relevance'] > 0:
@@ -126,18 +156,39 @@ def create_markdown_content(candidates, source_type):
 
         if medium_score:
             content += "### 📋 후보 아티클 (점수 60-79)\n\n"
-            for candidate in sorted(medium_score, key=lambda x: x['score'], reverse=True):
+            for candidate in sort_candidates(medium_score):
                 article = candidate['article']
-                content += f"- [{article['title']}]({article['url']}) - 점수: {candidate['score']}\n"
+                rank = candidate.get('rank')
+                ranking_score = candidate.get('ranking_score', candidate['score'])
+                rank_text = f" | 랭킹: #{rank}" if rank else ""
+                content += (
+                    f"- [{article['title']}]({article['url']}) - 평가 점수: {candidate['score']} "
+                    f"| 랭킹 점수: {ranking_score}{rank_text}\n"
+                )
                 content += f"  - 출처: {article['source']}\n"
                 content += f"  - 발행: {article['published_at'][:10]}\n\n"
 
-        if not high_score and not medium_score:
+        if low_score:
+            content += "### 🗂 검토 아티클 (점수 40-59)\n\n"
+            for candidate in sort_candidates(low_score):
+                article = candidate['article']
+                rank = candidate.get('rank')
+                ranking_score = candidate.get('ranking_score', candidate['score'])
+                rank_text = f" | 랭킹: #{rank}" if rank else ""
+                content += (
+                    f"- [{article['title']}]({article['url']}) - 평가 점수: {candidate['score']} "
+                    f"| 랭킹 점수: {ranking_score}{rank_text}\n"
+                )
+                content += f"  - 출처: {article['source']}\n"
+                content += f"  - 발행: {article['published_at'][:10]}\n\n"
+
+        if not high_score and not medium_score and not low_score:
             content += "_이 주제에 해당하는 후보 아티클이 없습니다._\n\n"
 
     content += "---\n\n"
     content += "📝 **검토 가이드**\n\n"
     content += "- ⭐ 표시된 아티클들은 고품질로 판단되며, 검토 후 `아티클/GeekNews.md`에 추가를 추천합니다.\n"
+    content += "- 🗂 검토 아티클(40-59점)은 다양성 확보/신규성 관점에서 선별 검토 대상입니다.\n"
     content += "- 각 아티클의 주제 분류는 자동으로 이루어지며, 필요시 수동 조정이 가능합니다.\n"
     content += "- PR 승인 후 아티클들은 해당 주제 섹션에 추가됩니다.\n\n"
 
